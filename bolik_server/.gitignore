@@ -1,0 +1,7 @@
+# Dev database
+timeline.db
+timeline.db-shm
+timeline.db-wal
+
+# Locally stored blobs
+blobs

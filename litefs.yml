@@ -1,0 +1,16 @@
+# Specify a directory where app should access the database from.
+fuse:
+  dir: "/litefs"
+
+# Specify a directory where LiteFS stores its data.
+# We use a volume mount.
+data:
+  dir: "/var/lib/bolik_api_db"
+
+# Set to false if you want LiteFS not to exit in case of an error.
+# Useful for debugging via SSH.
+exit-on-error: true
+
+# This node is always a primary for the time being.
+lease:
+  type: "static"

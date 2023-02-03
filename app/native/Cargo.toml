@@ -1,0 +1,25 @@
+[package]
+name = "native"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
+anyhow = "1"
+bolik_sdk = { path = "../../bolik_sdk" }
+bolik_proto = { path = "../../bolik_proto" }
+# Override blake3 dependency from multihash to use only Rust code.
+blake3 = { version = "*", features = ["pure"] }
+chrono = "^0.4"
+flutter_rust_bridge = "1.59.0"
+image = { version = "0.24", default-features = false, features = ["jpeg"] }
+rqrr = "0.5"
+tokio = { version = "1", features = ["rt", "sync"] }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "std"], default-features = false }
+# Try to override dependency of a dependency for easier cross-compiling
+# openssl = { version = "0.10", features = ["vendored"] }

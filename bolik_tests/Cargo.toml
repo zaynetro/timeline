@@ -1,0 +1,25 @@
+[package]
+name = "bolik_tests"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1"
+axum = { version = "0.6", features = ["tokio", "http1", "tower-log"], default-features = false }
+bolik_sdk = { path = "../bolik_sdk" }
+bolik_server = { path = "../bolik_server" }
+bolik_migrations = { path = "../common/migrations" }
+bolik_proto = { path = "../bolik_proto" }
+chrono = "^0.4"
+hyper = "0.14"
+openmls = { workspace = true }
+rand = "0.8"
+rust-s3 = { version = "0.33.0-beta4", default-features = false, features = [] }
+tempfile = "3"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time", "fs", "signal"] }
+tokio-stream = "^0.1"
+tower = { version = "0.4", features = [] }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "std", "ansi"], default-features = false }

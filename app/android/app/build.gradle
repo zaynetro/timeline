@@ -1,0 +1,127 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    // compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "tech.bolik.timeline"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+        // minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    signingConfigs {
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+       }
+   }
+   buildTypes {
+       debug {
+           applicationIdSuffix ".beta"
+       }
+
+       release {
+           signingConfig signingConfigs.release
+           ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
+            }
+       }
+   }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+// Build Rust code:
+// - http://cjycode.com/flutter_rust_bridge/integrate/android_tasks.html
+// - https://github.com/Desdaemon/flutter_rust_bridge_template/blob/main/android/app/build.gradle
+[
+    Debug: null,
+    Profile: '--release',
+    Release: '--release'
+].each {
+    def taskPostfix = it.key
+    def profileMode = it.value
+    tasks.whenTaskAdded { task ->
+        if (task.name == "javaPreCompile$taskPostfix") {
+            task.dependsOn "cargoBuild$taskPostfix"
+        }
+    }
+    tasks.register("cargoBuild$taskPostfix", Exec) {
+        // My Pixel is arm64-v8a so limit arch for now
+        // Check with ~/Android/Sdk/platform-tools/adb shell getprop ro.product.cpu.abi
+
+        workingDir "../../native"
+        environment "ANDROID_NDK_HOME", "$ANDROID_NDK"
+        commandLine 'cargo', 'ndk',
+                // the 2 ABIs below are used by real Android devices
+                '-t', 'armeabi-v7a',
+                '-t', 'arm64-v8a',
+                // the below 2 ABIs are usually used for Android simulators,
+                // add or remove these ABIs as needed.
+                // '-t', 'x86',
+                '-t', 'x86_64',
+                '-o', '../android/app/src/main/jniLibs', 'build'
+        if (profileMode != null) {
+            args profileMode
+        }
+    }
+}

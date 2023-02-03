@@ -1,0 +1,15 @@
+[package]
+name = "bolik_migrations"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+base16ct = { version = "0.1", features = ["alloc"] }
+rusqlite = { version = "0.28", features = ["bundled", "chrono", "functions"] }
+seahash = { workspace = true }
+sha2 = "0.10"
+thiserror = "1"
+tracing = { workspace = true }
+
+[dev-dependencies]
+rand = "0.8"

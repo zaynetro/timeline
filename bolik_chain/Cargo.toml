@@ -1,0 +1,15 @@
+[package]
+name = "bolik_chain"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bolik_proto = { path = "../bolik_proto" }
+bs58 = { workspace = true }
+multihash = { version = "^0.16", default-features = false, features = ["std", "multihash-impl", "blake3"] }
+openmls = { workspace = true }
+openmls_traits = { workspace = true }
+thiserror = "1"
+tls_codec = "^0.2"

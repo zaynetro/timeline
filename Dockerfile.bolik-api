@@ -1,0 +1,50 @@
+FROM lukemathwalker/cargo-chef:latest-rust-1 AS chef
+WORKDIR app
+
+
+# Compute recipe.json (our dependencies)
+FROM chef AS planner
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
+
+
+# Build
+FROM chef AS builder
+COPY --from=planner /app/recipe.json recipe.json
+
+RUN apt-get update
+# OpenSSL dependencies
+RUN apt-get install -y pkg-config libssl-dev make
+# Protobuf
+# RUN apt-get install -y protobuf-compiler libprotobuf-dev
+# Debian bullseye comes with too old protoc version
+RUN apt-get install -y curl unzip \
+    && mkdir -p /tmp/protoc \
+    && cd /tmp/protoc \
+    && curl -Lo protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v21.9/protoc-21.9-linux-x86_64.zip \
+    && unzip protoc.zip \
+    && chmod +x bin/protoc \
+    && cp bin/protoc /usr/bin/protoc
+RUN protoc --version
+
+# Build dependencies - this is the caching Docker layer!
+RUN cargo chef cook --release --recipe-path recipe.json
+# Build application
+COPY . .
+RUN cd bolik_server && cargo build --release
+
+
+# Runtime
+FROM debian:bullseye-slim AS runtime
+
+RUN apt-get update
+RUN apt-get -y install sqlite3 ca-certificates fuse
+
+WORKDIR app
+
+ADD litefs.yml /etc/litefs.yml
+
+COPY --from=flyio/litefs:0.3 /usr/local/bin/litefs /usr/local/bin/litefs
+COPY --from=builder /app/target/release/bolik_server /usr/local/bin/bolik_server
+
+CMD litefs mount -- bolik_server

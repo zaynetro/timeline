@@ -1,0 +1,276 @@
+syntax = "proto3";
+
+package bolik_sync;
+
+message KeyPackageMessage {
+  // TLS serialized KeyPackage
+  bytes data = 1;
+}
+
+message DeviceVectorClock {
+  // A map from device id to always incrementing counter (lamport timestamp)
+  map<string, uint64> vector = 1;
+}
+
+// Just a namespace for all request messages
+message Request {
+  message SecretGroupCommit {
+    // Serialized MlsMessageOut
+    bytes mls = 1;
+    // Serialized Welcome.
+    // Welcome is present when new members were added to the group.
+    optional bytes welcome = 2;
+    SignatureChain chain = 3;
+  }
+
+  message SecretGroupMessage {
+    // Serialized MlsMessageOut
+    bytes mls = 1;
+    // Hash of the chain block that created this message (aka group version)
+    string chain_hash = 2;
+    // List of recepient device ids (current group members).
+    repeated string to_device_ids = 4;
+  }
+
+  // An indicator that a new account was created
+  message NewAccount {
+    SignatureChain chain = 1;
+  }
+
+  message PushMailbox {
+    string id = 1;
+    oneof value {
+      NewAccount account = 2;
+      SecretGroupMessage message = 3;
+      SecretGroupCommit commit = 4;
+    }
+    int64 created_at_sec = 5;
+    uint32 created_at_nano = 6;
+  }
+
+  // Public blob info
+  message BlobRefMessage {
+    string id = 1;
+    string device_id = 2;
+  }
+
+  message DocMessage {
+    string id = 1;
+    repeated string to_account_ids = 2;
+    DeviceVectorClock current_clock = 3;
+    uint64 counter = 4;
+    int64 created_at_sec = 5;
+    string payload_signature = 6;
+
+    oneof body {
+      EncryptedBody encrypted = 7;
+      DeletionBody deleted = 8;
+      // PlainText plaintext = 9;
+    }
+
+    message EncryptedBody {
+      bytes payload = 1;
+      string secret_id = 2;
+      repeated BlobRefMessage blob_refs = 3;
+    }
+
+    // Permanently delete the doc
+    message DeletionBody {
+      int64 deleted_at_sec = 1;
+    }
+
+    // message PlaintextBody {
+    //   bytes payload = 1;
+    //   repeated BlobRefMessage blob_refs = 2;
+    // }
+  }
+
+  message PresignUpload {
+    string blob_id = 1;
+    uint64 size_bytes = 2;
+  }
+
+  message PresignDownload {
+    string blob_id = 1;
+    string device_id = 2;
+    string doc_id = 3;
+  }
+
+  message AckMailboxInfo {
+    optional string error = 1;
+  }
+}
+
+// Just a namespace for all response messages
+message Response {
+  message SecretGroupMessage {
+    // Serialized MlsMessageOut
+    bytes mls = 1;
+    // Hash of the chain block that created this message (aka group version)
+    string chain_hash = 2;
+    // Chain must be present for commits
+    optional SignatureChain chain = 3;
+  }
+
+  message SecretGroupWelcome {
+    // Serialized Welcome
+    bytes welcome = 1;
+    SignatureChain chain = 2;
+  }
+
+  message Push {
+    uint64 offset = 1;
+  }
+
+  // A response message that was persisted on the backend side.
+  message Mailbox {
+    message Entry {
+      string id = 1;
+
+      oneof value {
+        SecretGroupMessage message = 3;
+        SecretGroupWelcome welcome = 4;
+      }
+    }
+
+    repeated Entry entries = 1;
+  }
+
+  message AccountDocs {
+    // Last seen counter from this device
+    uint64 last_seen_counter = 1;
+    // Max amount of docs that could be returned
+    uint32 limit = 2;
+    repeated DocVersion docs = 3;
+  }
+
+  message DocVersion {
+    string doc_id = 1;
+    string author_device_id = 2;
+    uint64 counter = 3;
+    string payload_signature = 4;
+    int64 created_at_sec = 5;
+
+    oneof body {
+      EncryptedBody encrypted = 6;
+      DeletionBody deleted = 7;
+      // PlainText plaintext = 8;
+    }
+
+    message EncryptedBody {
+      bytes payload = 1;
+      string secret_id = 2;
+    }
+
+    message DeletionBody {
+      int64 deleted_at_sec = 1;
+    }
+  }
+
+  message AccountDevices {
+    SignatureChain chain = 1;
+    // A list of unused key packages for each account device
+    repeated KeyPackageMessage key_packages = 2;
+  }
+
+  message DevicePackages {
+    repeated KeyPackageMessage key_packages = 1;
+  }
+
+  message PresignedUrl {
+    string url = 1;
+  }
+}
+
+message DocPayload {
+  DocSchema schema = 1;
+  bytes data = 2;
+  int64 edited_at_sec = 3;
+  AclPayload acl = 4;
+
+  enum DocSchema {
+    Account_V1 = 0;
+    Card_V1 = 1;
+    Card_Labels_V1 = 2;
+    Profile_V1 = 3;
+    Account_Notifications_V1 = 4;
+  }
+}
+
+message AclPayload {
+  AclSchema schema = 1;
+  bytes data = 2;
+
+  enum AclSchema {
+    Yrs_V1 = 0;
+  }
+}
+
+// Content of a ProcessedMessage::ApplicationMessage
+message AppMessage {
+  oneof value {
+    DocSecretsMessage secrets = 1;
+    RemoveMe remove_me = 2;
+  }
+
+  message DocSecretsMessage {
+    repeated Secret values = 1;
+
+    message Secret {
+      string id = 1;
+      bytes secret = 2;
+      SecretAlgorithm algorithm = 3;
+      int64 created_at_sec = 4;
+      repeated string account_ids = 5;
+      optional string doc_id = 6;
+    }
+  }
+
+  message RemoveMe {
+  }
+}
+
+enum SecretAlgorithm {
+  ChaCha20Poly1305 = 0;
+}
+
+message SignatureChain {
+  repeated ChainBlock blocks = 1;
+
+  message ChainBlock {
+    string hash = 1;
+    bytes signature = 2;
+    ChainBody body = 3;
+    // Specifies how body should be encoded to calculate correct hash
+    uint32 body_version = 4;
+  }
+
+  message ChainBody {
+    optional string parent = 1;
+    string authored_by = 2;
+    uint64 epoch = 3;
+    DeviceOps ops = 4;
+    repeated string account_ids = 5;
+  }
+
+  message DeviceOps {
+    // TLS serialized KeyPackage
+    repeated bytes add_packages = 1;
+    repeated Removed remove = 2;
+    // TLS serialized KeyPackage
+    repeated bytes update_packages = 3;
+  }
+
+  message Removed {
+    // TLS serialized KeyPackageRef
+    bytes key_ref = 1;
+    // Last seen device counter
+    uint64 last_counter = 2;
+  }
+}
+
+message DeviceShareMessage {
+  // TLS serialized KeyPackage
+  bytes key_package = 1;
+  string device_name = 2;
+}

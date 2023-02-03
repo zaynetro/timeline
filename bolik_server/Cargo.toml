@@ -1,0 +1,31 @@
+[package]
+name = "bolik_server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = { version = "0.6", features = ["tokio", "macros", "http1", "tower-log", "query"], default-features = false }
+bolik_chain = { path = "../bolik_chain" }
+bolik_migrations = { path = "../common/migrations" }
+bolik_proto = { path = "../bolik_proto" }
+bs58 = { workspace = true }
+chrono = "^0.4"
+futures = { version = "0.3" }
+hyper = "0.14"
+multihash = { version = "^0.16", default-features = false, features = ["std", "multihash-impl", "sha2", "blake3"] }
+openmls = { workspace = true }
+openmls_rust_crypto = { workspace = true}
+openmls_traits = { workspace = true }
+rust-s3 = { version = "0.33.0-beta4", default-features = false, features = ["tokio-native-tls"] }
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time", "fs", "signal"] }
+tokio-stream = "^0.1"
+tokio-util = { version = "^0.7", features = ["io"] }
+thiserror = "1"
+tls_codec = "^0.2"
+tower = { version = "0.4", features = ["util", "timeout"] }
+tower-http = { version = "0.3", features = ["add-extension", "trace"] }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "std", "ansi"], default-features = false }

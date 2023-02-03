@@ -1,0 +1,16 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+# Rust builds
+target
+
+# Dev database
+bolik_server/timeline.db*
+
+# Locally stored blobs
+bolik_server/blobs
+
+notes
+.env

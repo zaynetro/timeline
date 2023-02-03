@@ -1,0 +1,13 @@
+[workspace]
+members = ["app/native", "bolik_chain", "bolik_sdk", "bolik_proto", "bolik_server", "common/migrations", "bolik_tests"]
+
+[workspace.dependencies]
+bs58 = "^0.4"
+# openmls = "0.4"
+# openmls_rust_crypto = "0.1"
+# openmls_traits = "0.1"
+openmls = { git = "https://github.com/zaynetro/openmls", branch = "bolik-branch" }
+openmls_rust_crypto = { git = "https://github.com/zaynetro/openmls", branch = "bolik-branch" }
+openmls_traits = { git = "https://github.com/zaynetro/openmls", branch = "bolik-branch" }
+seahash = "4.1"
+tracing = "^0.1"
