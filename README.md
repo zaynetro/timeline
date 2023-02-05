@@ -23,7 +23,7 @@ Bolik Timeline is an application for managing personal documents like notes, pho
 You can join an open beta on Android, iOS and Mac.
 
 * iOS and Mac: <https://testflight.apple.com/join/C6RWPhFR>
-* Android: <https://play.google.com/store/apps/details?id=tech.bolik.timeline> *(In review)*
+* Android: <https://play.google.com/store/apps/details?id=tech.bolik.timeline>
 
 For Linux you will need to build yourself. Windows is not supported for the time being.
 
