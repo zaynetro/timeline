@@ -17,6 +17,7 @@ Bolik Timeline is an application for managing personal documents like notes, pho
 * Access your data from every major operating system: Android, iOS, Mac and Linux (Windows planned).
 * No lock-in. Fully open source. At any time you can export your data to Markdown files.
 
+Read an [introductory blog post](https://www.zaynetro.com/post/how-to-build-e2ee-local-first-app/) for more details.
 
 ## How to install?
 
