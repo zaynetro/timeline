@@ -357,7 +357,11 @@ impl Wire2Api<AccContact> for *mut wire_AccContact {
         Wire2Api::<AccContact>::wire2api(*wrap).into()
     }
 }
-
+impl Wire2Api<bool> for *mut bool {
+    fn wire2api(self) -> bool {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
 impl Wire2Api<CardBlock> for *mut wire_CardBlock {
     fn wire2api(self) -> CardBlock {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
@@ -382,7 +386,11 @@ impl Wire2Api<CardTextAttrs> for *mut wire_CardTextAttrs {
         Wire2Api::<CardTextAttrs>::wire2api(*wrap).into()
     }
 }
-
+impl Wire2Api<u8> for *mut u8 {
+    fn wire2api(self) -> u8 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
 impl Wire2Api<Box<ContentView>> for *mut wire_ContentView {
     fn wire2api(self) -> Box<ContentView> {
         let wrap = unsafe { support::box_from_leak_ptr(self) };

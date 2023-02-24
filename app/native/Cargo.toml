@@ -15,7 +15,7 @@ bolik_proto = { path = "../../bolik_proto" }
 # Override blake3 dependency from multihash to use only Rust code.
 blake3 = { version = "*", features = ["pure"] }
 chrono = "^0.4"
-flutter_rust_bridge = "1.59.0"
+flutter_rust_bridge = "1.65.0"
 image = { version = "0.24", default-features = false, features = ["jpeg"] }
 rqrr = "0.5"
 tokio = { version = "1", features = ["rt", "sync"] }
