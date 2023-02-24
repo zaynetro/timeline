@@ -535,6 +535,7 @@ where
     }
 }
 
+#[derive(Clone)]
 pub struct DownloadResult {
     // Will be present if file is already downloaded
     pub path: Option<String>,

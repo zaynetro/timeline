@@ -36,7 +36,7 @@ class _BolikAppState extends State<BolikApp> {
   void _eventListener(OutputEvent event) async {
     if (event is OutputEvent_PostAccount) {
       if (widget.info.appState.value == null) {
-        widget.info.onPostAccount(event.field0.accView);
+        widget.info.onPostAccount(event.accView);
 
         // Replace all routes with a timeline page
         BolikRoutes.rootNav.currentState!

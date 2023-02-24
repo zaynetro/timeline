@@ -3,14 +3,19 @@ use std::{io::Write, sync::Mutex};
 
 use anyhow::{bail, Result};
 
-pub use bolik_sdk::account::{AccContact, AccDevice, AccLabel};
-pub use bolik_sdk::timeline::acl_doc::AclRights;
-pub use bolik_sdk::timeline::card::CardLabel;
-use bolik_sdk::timeline::card::CardLabelsChange;
-pub use bolik_sdk::timeline::card::CardTextAttrs;
-pub use bolik_sdk::ImportResult;
-use bolik_sdk::{account, key_from_slice, output, start_runtime, timeline, DefaultSdk};
-use bolik_sdk::{MoveToBinScope, BIN_LABEL_ID};
+use bolik_sdk::{
+    account, key_from_slice, output, start_runtime,
+    timeline::{self, card::CardLabelsChange},
+    DefaultSdk, MoveToBinScope, BIN_LABEL_ID,
+};
+pub use bolik_sdk::{
+    account::{AccContact, AccDevice, AccLabel},
+    timeline::{
+        acl_doc::AclRights,
+        card::{CardLabel, CardTextAttrs},
+    },
+    DownloadResult, ImportResult, SecretGroupStatus,
+};
 use chrono::{DateTime, Utc};
 use flutter_rust_bridge::handler::{self, ErrorHandler, ReportDartErrorHandler};
 use flutter_rust_bridge::support::WireSyncReturn;
@@ -98,9 +103,9 @@ pub fn setup(
 
     match sdk.get_account() {
         Some(view) => {
-            sink.add(OutputEvent::PostAccount(PostAccountPhase {
+            sink.add(OutputEvent::PostAccount {
                 acc_view: view.into(),
-            }));
+            });
         }
         None => {
             sink.add(OutputEvent::PreAccount);
@@ -319,13 +324,7 @@ pub fn delete_acc_label(label_id: String) -> Result<AccView> {
 pub fn edit_collaborators(card_id: String, changes: Vec<CollaboratorChange>) -> Result<CardView> {
     let changed: HashMap<_, _> = changes
         .into_iter()
-        .map(|c| {
-            if c.removed {
-                (c.account_id, None)
-            } else {
-                (c.account_id, Some(c.rights))
-            }
-        })
+        .map(|c| (c.account_id, c.rights))
         .collect();
     let card = with_sdk(|sdk| sdk.edit_collaborators(&card_id, changed))?;
     Ok(card.into())
@@ -399,9 +398,9 @@ pub enum OutputEvent {
     SyncFailed,
     TimelineUpdated,
     PreAccount,
-    PostAccount(PostAccountPhase),
-    DeviceAdded(DeviceAddedEvent),
-    DocUpdated(DocUpdatedEvent),
+    PostAccount { acc_view: AccView },
+    DeviceAdded { device_name: String },
+    DocUpdated { doc_id: String },
     DownloadCompleted { blob_id: String, path: String },
     DownloadFailed { blob_id: String },
     AccUpdated(AccView),
@@ -416,17 +415,11 @@ impl From<output::OutputEvent> for OutputEvent {
             output::OutputEvent::Synced => Self::Synced,
             output::OutputEvent::SyncFailed => Self::SyncFailed,
             output::OutputEvent::TimelineUpdated => Self::TimelineUpdated,
-            output::OutputEvent::DeviceAdded { device_name } => {
-                Self::DeviceAdded(DeviceAddedEvent { device_name })
-            }
-            output::OutputEvent::ConnectedToAccount { view } => {
-                Self::PostAccount(PostAccountPhase {
-                    acc_view: view.into(),
-                })
-            }
-            output::OutputEvent::DocUpdated { doc_id } => {
-                Self::DocUpdated(DocUpdatedEvent { doc_id })
-            }
+            output::OutputEvent::DeviceAdded { device_name } => Self::DeviceAdded { device_name },
+            output::OutputEvent::ConnectedToAccount { view } => Self::PostAccount {
+                acc_view: view.into(),
+            },
+            output::OutputEvent::DocUpdated { doc_id } => Self::DocUpdated { doc_id },
             output::OutputEvent::DownloadCompleted { blob_id, path, .. } => {
                 Self::DownloadCompleted { blob_id, path }
             }
@@ -437,14 +430,6 @@ impl From<output::OutputEvent> for OutputEvent {
             output::OutputEvent::NotificationsUpdated => Self::NotificationsUpdated,
         }
     }
-}
-
-pub struct PostAccountPhase {
-    pub acc_view: AccView,
-}
-
-pub struct DeviceAddedEvent {
-    pub device_name: String,
 }
 
 pub struct TimelineDay {
@@ -631,24 +616,12 @@ impl From<timeline::card::FileThumbnail> for FileThumbnail {
     }
 }
 
-pub struct DocUpdatedEvent {
-    pub doc_id: String,
-}
-
-pub struct DownloadResult {
+#[frb(mirror(DownloadResult))]
+pub struct _DownloadResult {
     // Will be present if file is already downloaded
     pub path: Option<String>,
     // Will be true when client started downloading the file
     pub download_started: bool,
-}
-
-impl From<bolik_sdk::DownloadResult> for DownloadResult {
-    fn from(r: bolik_sdk::DownloadResult) -> Self {
-        Self {
-            path: r.path,
-            download_started: r.download_started,
-        }
-    }
 }
 
 #[frb(mirror(AccContact))]
@@ -670,6 +643,7 @@ pub struct _AccDevice {
     pub added_at: DateTime<Utc>,
 }
 
+// This custom struct is needed because frb doesn't support HashMap.
 pub struct AclDoc {
     pub accounts: Vec<AclEntry>,
 }
@@ -712,20 +686,13 @@ impl From<bolik_sdk::CreateAccLabelResult> for CreateAccLabelResult {
     }
 }
 
-pub struct SecretGroupStatus {
+#[frb(mirror(SecretGroupStatus))]
+pub struct _SecretGroupStatus {
     pub authentication_secret: Vec<u8>,
     pub devices: Vec<String>,
 }
 
-impl From<bolik_sdk::SecretGroupStatus> for SecretGroupStatus {
-    fn from(s: bolik_sdk::SecretGroupStatus) -> Self {
-        Self {
-            authentication_secret: s.authentication_secret,
-            devices: s.devices,
-        }
-    }
-}
-
+// This can't use frb's mirror because it doesn't support returning Result<Vec<ProfileView>>
 pub struct ProfileView {
     pub account_id: String,
     pub name: String,
@@ -742,12 +709,7 @@ impl From<bolik_sdk::account::ProfileView> for ProfileView {
 
 pub struct CollaboratorChange {
     pub account_id: String,
-    pub rights: AclRights,
-    // rights: Option<AclRights>,
-    // TODO:
-    // Once https://github.com/fzyzcjy/flutter_rust_bridge/pull/949 lands, I can remove this field
-    // and make rights field optional. Atm, flutter rust bridge doesn't like Options.
-    pub removed: bool,
+    pub rights: Option<AclRights>,
 }
 
 pub enum PixelFormat {

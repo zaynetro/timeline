@@ -10,8 +10,7 @@ class PreAccountState {
 
   Future<void> createAccount(String? name) async {
     final view = await native.createAccount(name: name);
-    dispatcher
-        .dispatch(OutputEvent.postAccount(PostAccountPhase(accView: view)));
+    dispatcher.dispatch(OutputEvent.postAccount(accView: view));
   }
 
   Future<String> getDeviceShare() async {

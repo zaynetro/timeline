@@ -104,8 +104,7 @@ typedef struct wire_AccContact {
 
 typedef struct wire_CollaboratorChange {
   struct wire_uint_8_list *account_id;
-  int32_t rights;
-  bool removed;
+  int32_t *rights;
 } wire_CollaboratorChange;
 
 typedef struct wire_list_collaborator_change {
@@ -231,6 +230,8 @@ struct wire_StringList *new_StringList_0(int32_t len);
 
 struct wire_AccContact *new_box_autoadd_acc_contact_0(void);
 
+int32_t *new_box_autoadd_acl_rights_0(int32_t value);
+
 bool *new_box_autoadd_bool_0(bool value);
 
 struct wire_CardBlock *new_box_autoadd_card_block_0(void);
@@ -307,6 +308,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_logout);
     dummy_var ^= ((int64_t) (void*) new_StringList_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_acc_contact_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_acl_rights_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_bool_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_card_block_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_card_file_0);

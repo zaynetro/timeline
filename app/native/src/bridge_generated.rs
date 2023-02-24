@@ -334,7 +334,13 @@ fn wire_download_file_impl(
             let api_card_id = card_id.wire2api();
             let api_blob_id = blob_id.wire2api();
             let api_device_id = device_id.wire2api();
-            move |task_callback| download_file(api_card_id, api_blob_id, api_device_id)
+            move |task_callback| {
+                Ok(mirror_DownloadResult(download_file(
+                    api_card_id,
+                    api_blob_id,
+                    api_device_id,
+                )?))
+            }
         },
     )
 }
@@ -355,7 +361,7 @@ fn wire_account_group_impl(port_: MessagePort) {
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
-        move || move |task_callback| account_group(),
+        move || move |task_callback| Ok(mirror_SecretGroupStatus(account_group()?)),
     )
 }
 fn wire_edit_name_impl(port_: MessagePort, name: impl Wire2Api<String> + UnwindSafe) {
@@ -591,7 +597,13 @@ struct mirror_CardLabel(CardLabel);
 struct mirror_CardTextAttrs(CardTextAttrs);
 
 #[derive(Clone)]
+struct mirror_DownloadResult(DownloadResult);
+
+#[derive(Clone)]
 struct mirror_ImportResult(ImportResult);
+
+#[derive(Clone)]
+struct mirror_SecretGroupStatus(SecretGroupStatus);
 
 // Section: static checks
 
@@ -634,10 +646,20 @@ const _: fn() = || {
         let _: Option<String> = CardTextAttrs.block;
     }
     {
+        let DownloadResult = None::<DownloadResult>.unwrap();
+        let _: Option<String> = DownloadResult.path;
+        let _: bool = DownloadResult.download_started;
+    }
+    {
         let ImportResult = None::<ImportResult>.unwrap();
         let _: u32 = ImportResult.imported;
         let _: Vec<String> = ImportResult.duplicates;
         let _: Vec<String> = ImportResult.failed;
+    }
+    {
+        let SecretGroupStatus = None::<SecretGroupStatus>.unwrap();
+        let _: Vec<u8> = SecretGroupStatus.authentication_secret;
+        let _: Vec<String> = SecretGroupStatus.devices;
     }
 };
 // Section: allocate functions
@@ -882,26 +904,12 @@ impl support::IntoDart for CreateAccLabelResult {
 }
 impl support::IntoDartExceptPrimitive for CreateAccLabelResult {}
 
-impl support::IntoDart for DeviceAddedEvent {
+impl support::IntoDart for mirror_DownloadResult {
     fn into_dart(self) -> support::DartAbi {
-        vec![self.device_name.into_dart()].into_dart()
+        vec![self.0.path.into_dart(), self.0.download_started.into_dart()].into_dart()
     }
 }
-impl support::IntoDartExceptPrimitive for DeviceAddedEvent {}
-
-impl support::IntoDart for DocUpdatedEvent {
-    fn into_dart(self) -> support::DartAbi {
-        vec![self.doc_id.into_dart()].into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for DocUpdatedEvent {}
-
-impl support::IntoDart for DownloadResult {
-    fn into_dart(self) -> support::DartAbi {
-        vec![self.path.into_dart(), self.download_started.into_dart()].into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for DownloadResult {}
+impl support::IntoDartExceptPrimitive for mirror_DownloadResult {}
 
 impl support::IntoDart for FileThumbnail {
     fn into_dart(self) -> support::DartAbi {
@@ -935,9 +943,9 @@ impl support::IntoDart for OutputEvent {
             Self::SyncFailed => vec![1.into_dart()],
             Self::TimelineUpdated => vec![2.into_dart()],
             Self::PreAccount => vec![3.into_dart()],
-            Self::PostAccount(field0) => vec![4.into_dart(), field0.into_dart()],
-            Self::DeviceAdded(field0) => vec![5.into_dart(), field0.into_dart()],
-            Self::DocUpdated(field0) => vec![6.into_dart(), field0.into_dart()],
+            Self::PostAccount { acc_view } => vec![4.into_dart(), acc_view.into_dart()],
+            Self::DeviceAdded { device_name } => vec![5.into_dart(), device_name.into_dart()],
+            Self::DocUpdated { doc_id } => vec![6.into_dart(), doc_id.into_dart()],
             Self::DownloadCompleted { blob_id, path } => {
                 vec![7.into_dart(), blob_id.into_dart(), path.into_dart()]
             }
@@ -951,13 +959,6 @@ impl support::IntoDart for OutputEvent {
     }
 }
 impl support::IntoDartExceptPrimitive for OutputEvent {}
-impl support::IntoDart for PostAccountPhase {
-    fn into_dart(self) -> support::DartAbi {
-        vec![self.acc_view.into_dart()].into_dart()
-    }
-}
-impl support::IntoDartExceptPrimitive for PostAccountPhase {}
-
 impl support::IntoDart for ProfileView {
     fn into_dart(self) -> support::DartAbi {
         vec![self.account_id.into_dart(), self.name.into_dart()].into_dart()
@@ -965,16 +966,16 @@ impl support::IntoDart for ProfileView {
 }
 impl support::IntoDartExceptPrimitive for ProfileView {}
 
-impl support::IntoDart for SecretGroupStatus {
+impl support::IntoDart for mirror_SecretGroupStatus {
     fn into_dart(self) -> support::DartAbi {
         vec![
-            self.authentication_secret.into_dart(),
-            self.devices.into_dart(),
+            self.0.authentication_secret.into_dart(),
+            self.0.devices.into_dart(),
         ]
         .into_dart()
     }
 }
-impl support::IntoDartExceptPrimitive for SecretGroupStatus {}
+impl support::IntoDartExceptPrimitive for mirror_SecretGroupStatus {}
 
 impl support::IntoDart for TimelineDay {
     fn into_dart(self) -> support::DartAbi {

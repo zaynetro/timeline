@@ -874,9 +874,9 @@ mixin _$OutputEvent {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -891,9 +891,9 @@ mixin _$OutputEvent {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -908,9 +908,9 @@ mixin _$OutputEvent {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -1039,9 +1039,9 @@ class _$OutputEvent_Synced implements OutputEvent_Synced {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -1059,9 +1059,9 @@ class _$OutputEvent_Synced implements OutputEvent_Synced {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -1079,9 +1079,9 @@ class _$OutputEvent_Synced implements OutputEvent_Synced {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -1212,9 +1212,9 @@ class _$OutputEvent_SyncFailed implements OutputEvent_SyncFailed {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -1232,9 +1232,9 @@ class _$OutputEvent_SyncFailed implements OutputEvent_SyncFailed {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -1252,9 +1252,9 @@ class _$OutputEvent_SyncFailed implements OutputEvent_SyncFailed {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -1388,9 +1388,9 @@ class _$OutputEvent_TimelineUpdated implements OutputEvent_TimelineUpdated {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -1408,9 +1408,9 @@ class _$OutputEvent_TimelineUpdated implements OutputEvent_TimelineUpdated {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -1428,9 +1428,9 @@ class _$OutputEvent_TimelineUpdated implements OutputEvent_TimelineUpdated {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -1561,9 +1561,9 @@ class _$OutputEvent_PreAccount implements OutputEvent_PreAccount {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -1581,9 +1581,9 @@ class _$OutputEvent_PreAccount implements OutputEvent_PreAccount {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -1601,9 +1601,9 @@ class _$OutputEvent_PreAccount implements OutputEvent_PreAccount {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -1698,7 +1698,7 @@ abstract class _$$OutputEvent_PostAccountCopyWith<$Res> {
           $Res Function(_$OutputEvent_PostAccount) then) =
       __$$OutputEvent_PostAccountCopyWithImpl<$Res>;
   @useResult
-  $Res call({PostAccountPhase field0});
+  $Res call({AccView accView});
 }
 
 /// @nodoc
@@ -1712,13 +1712,13 @@ class __$$OutputEvent_PostAccountCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? field0 = null,
+    Object? accView = null,
   }) {
     return _then(_$OutputEvent_PostAccount(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as PostAccountPhase,
+      accView: null == accView
+          ? _value.accView
+          : accView // ignore: cast_nullable_to_non_nullable
+              as AccView,
     ));
   }
 }
@@ -1726,14 +1726,14 @@ class __$$OutputEvent_PostAccountCopyWithImpl<$Res>
 /// @nodoc
 
 class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
-  const _$OutputEvent_PostAccount(this.field0);
+  const _$OutputEvent_PostAccount({required this.accView});
 
   @override
-  final PostAccountPhase field0;
+  final AccView accView;
 
   @override
   String toString() {
-    return 'OutputEvent.postAccount(field0: $field0)';
+    return 'OutputEvent.postAccount(accView: $accView)';
   }
 
   @override
@@ -1741,11 +1741,11 @@ class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OutputEvent_PostAccount &&
-            (identical(other.field0, field0) || other.field0 == field0));
+            (identical(other.accView, accView) || other.accView == accView));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, field0);
+  int get hashCode => Object.hash(runtimeType, accView);
 
   @JsonKey(ignore: true)
   @override
@@ -1761,9 +1761,9 @@ class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -1771,7 +1771,7 @@ class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
     required TResult Function() notificationsUpdated,
     required TResult Function() logOut,
   }) {
-    return postAccount(field0);
+    return postAccount(accView);
   }
 
   @override
@@ -1781,9 +1781,9 @@ class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -1791,7 +1791,7 @@ class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
     TResult? Function()? notificationsUpdated,
     TResult? Function()? logOut,
   }) {
-    return postAccount?.call(field0);
+    return postAccount?.call(accView);
   }
 
   @override
@@ -1801,9 +1801,9 @@ class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -1813,7 +1813,7 @@ class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
     required TResult orElse(),
   }) {
     if (postAccount != null) {
-      return postAccount(field0);
+      return postAccount(accView);
     }
     return orElse();
   }
@@ -1889,10 +1889,10 @@ class _$OutputEvent_PostAccount implements OutputEvent_PostAccount {
 }
 
 abstract class OutputEvent_PostAccount implements OutputEvent {
-  const factory OutputEvent_PostAccount(final PostAccountPhase field0) =
+  const factory OutputEvent_PostAccount({required final AccView accView}) =
       _$OutputEvent_PostAccount;
 
-  PostAccountPhase get field0;
+  AccView get accView;
   @JsonKey(ignore: true)
   _$$OutputEvent_PostAccountCopyWith<_$OutputEvent_PostAccount> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1904,7 +1904,7 @@ abstract class _$$OutputEvent_DeviceAddedCopyWith<$Res> {
           $Res Function(_$OutputEvent_DeviceAdded) then) =
       __$$OutputEvent_DeviceAddedCopyWithImpl<$Res>;
   @useResult
-  $Res call({DeviceAddedEvent field0});
+  $Res call({String deviceName});
 }
 
 /// @nodoc
@@ -1918,13 +1918,13 @@ class __$$OutputEvent_DeviceAddedCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? field0 = null,
+    Object? deviceName = null,
   }) {
     return _then(_$OutputEvent_DeviceAdded(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as DeviceAddedEvent,
+      deviceName: null == deviceName
+          ? _value.deviceName
+          : deviceName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -1932,14 +1932,14 @@ class __$$OutputEvent_DeviceAddedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
-  const _$OutputEvent_DeviceAdded(this.field0);
+  const _$OutputEvent_DeviceAdded({required this.deviceName});
 
   @override
-  final DeviceAddedEvent field0;
+  final String deviceName;
 
   @override
   String toString() {
-    return 'OutputEvent.deviceAdded(field0: $field0)';
+    return 'OutputEvent.deviceAdded(deviceName: $deviceName)';
   }
 
   @override
@@ -1947,11 +1947,12 @@ class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OutputEvent_DeviceAdded &&
-            (identical(other.field0, field0) || other.field0 == field0));
+            (identical(other.deviceName, deviceName) ||
+                other.deviceName == deviceName));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, field0);
+  int get hashCode => Object.hash(runtimeType, deviceName);
 
   @JsonKey(ignore: true)
   @override
@@ -1967,9 +1968,9 @@ class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -1977,7 +1978,7 @@ class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
     required TResult Function() notificationsUpdated,
     required TResult Function() logOut,
   }) {
-    return deviceAdded(field0);
+    return deviceAdded(deviceName);
   }
 
   @override
@@ -1987,9 +1988,9 @@ class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -1997,7 +1998,7 @@ class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
     TResult? Function()? notificationsUpdated,
     TResult? Function()? logOut,
   }) {
-    return deviceAdded?.call(field0);
+    return deviceAdded?.call(deviceName);
   }
 
   @override
@@ -2007,9 +2008,9 @@ class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -2019,7 +2020,7 @@ class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
     required TResult orElse(),
   }) {
     if (deviceAdded != null) {
-      return deviceAdded(field0);
+      return deviceAdded(deviceName);
     }
     return orElse();
   }
@@ -2095,10 +2096,10 @@ class _$OutputEvent_DeviceAdded implements OutputEvent_DeviceAdded {
 }
 
 abstract class OutputEvent_DeviceAdded implements OutputEvent {
-  const factory OutputEvent_DeviceAdded(final DeviceAddedEvent field0) =
+  const factory OutputEvent_DeviceAdded({required final String deviceName}) =
       _$OutputEvent_DeviceAdded;
 
-  DeviceAddedEvent get field0;
+  String get deviceName;
   @JsonKey(ignore: true)
   _$$OutputEvent_DeviceAddedCopyWith<_$OutputEvent_DeviceAdded> get copyWith =>
       throw _privateConstructorUsedError;
@@ -2110,7 +2111,7 @@ abstract class _$$OutputEvent_DocUpdatedCopyWith<$Res> {
           $Res Function(_$OutputEvent_DocUpdated) then) =
       __$$OutputEvent_DocUpdatedCopyWithImpl<$Res>;
   @useResult
-  $Res call({DocUpdatedEvent field0});
+  $Res call({String docId});
 }
 
 /// @nodoc
@@ -2124,13 +2125,13 @@ class __$$OutputEvent_DocUpdatedCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? field0 = null,
+    Object? docId = null,
   }) {
     return _then(_$OutputEvent_DocUpdated(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as DocUpdatedEvent,
+      docId: null == docId
+          ? _value.docId
+          : docId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -2138,14 +2139,14 @@ class __$$OutputEvent_DocUpdatedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
-  const _$OutputEvent_DocUpdated(this.field0);
+  const _$OutputEvent_DocUpdated({required this.docId});
 
   @override
-  final DocUpdatedEvent field0;
+  final String docId;
 
   @override
   String toString() {
-    return 'OutputEvent.docUpdated(field0: $field0)';
+    return 'OutputEvent.docUpdated(docId: $docId)';
   }
 
   @override
@@ -2153,11 +2154,11 @@ class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OutputEvent_DocUpdated &&
-            (identical(other.field0, field0) || other.field0 == field0));
+            (identical(other.docId, docId) || other.docId == docId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, field0);
+  int get hashCode => Object.hash(runtimeType, docId);
 
   @JsonKey(ignore: true)
   @override
@@ -2173,9 +2174,9 @@ class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -2183,7 +2184,7 @@ class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
     required TResult Function() notificationsUpdated,
     required TResult Function() logOut,
   }) {
-    return docUpdated(field0);
+    return docUpdated(docId);
   }
 
   @override
@@ -2193,9 +2194,9 @@ class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -2203,7 +2204,7 @@ class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
     TResult? Function()? notificationsUpdated,
     TResult? Function()? logOut,
   }) {
-    return docUpdated?.call(field0);
+    return docUpdated?.call(docId);
   }
 
   @override
@@ -2213,9 +2214,9 @@ class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -2225,7 +2226,7 @@ class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
     required TResult orElse(),
   }) {
     if (docUpdated != null) {
-      return docUpdated(field0);
+      return docUpdated(docId);
     }
     return orElse();
   }
@@ -2301,10 +2302,10 @@ class _$OutputEvent_DocUpdated implements OutputEvent_DocUpdated {
 }
 
 abstract class OutputEvent_DocUpdated implements OutputEvent {
-  const factory OutputEvent_DocUpdated(final DocUpdatedEvent field0) =
+  const factory OutputEvent_DocUpdated({required final String docId}) =
       _$OutputEvent_DocUpdated;
 
-  DocUpdatedEvent get field0;
+  String get docId;
   @JsonKey(ignore: true)
   _$$OutputEvent_DocUpdatedCopyWith<_$OutputEvent_DocUpdated> get copyWith =>
       throw _privateConstructorUsedError;
@@ -2390,9 +2391,9 @@ class _$OutputEvent_DownloadCompleted implements OutputEvent_DownloadCompleted {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -2410,9 +2411,9 @@ class _$OutputEvent_DownloadCompleted implements OutputEvent_DownloadCompleted {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -2430,9 +2431,9 @@ class _$OutputEvent_DownloadCompleted implements OutputEvent_DownloadCompleted {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -2600,9 +2601,9 @@ class _$OutputEvent_DownloadFailed implements OutputEvent_DownloadFailed {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -2620,9 +2621,9 @@ class _$OutputEvent_DownloadFailed implements OutputEvent_DownloadFailed {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -2640,9 +2641,9 @@ class _$OutputEvent_DownloadFailed implements OutputEvent_DownloadFailed {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -2806,9 +2807,9 @@ class _$OutputEvent_AccUpdated implements OutputEvent_AccUpdated {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -2826,9 +2827,9 @@ class _$OutputEvent_AccUpdated implements OutputEvent_AccUpdated {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -2846,9 +2847,9 @@ class _$OutputEvent_AccUpdated implements OutputEvent_AccUpdated {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -3013,9 +3014,9 @@ class _$OutputEvent_Notification implements OutputEvent_Notification {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -3033,9 +3034,9 @@ class _$OutputEvent_Notification implements OutputEvent_Notification {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -3053,9 +3054,9 @@ class _$OutputEvent_Notification implements OutputEvent_Notification {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -3196,9 +3197,9 @@ class _$OutputEvent_NotificationsUpdated
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -3216,9 +3217,9 @@ class _$OutputEvent_NotificationsUpdated
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -3236,9 +3237,9 @@ class _$OutputEvent_NotificationsUpdated
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,
@@ -3370,9 +3371,9 @@ class _$OutputEvent_LogOut implements OutputEvent_LogOut {
     required TResult Function() syncFailed,
     required TResult Function() timelineUpdated,
     required TResult Function() preAccount,
-    required TResult Function(PostAccountPhase field0) postAccount,
-    required TResult Function(DeviceAddedEvent field0) deviceAdded,
-    required TResult Function(DocUpdatedEvent field0) docUpdated,
+    required TResult Function(AccView accView) postAccount,
+    required TResult Function(String deviceName) deviceAdded,
+    required TResult Function(String docId) docUpdated,
     required TResult Function(String blobId, String path) downloadCompleted,
     required TResult Function(String blobId) downloadFailed,
     required TResult Function(AccView field0) accUpdated,
@@ -3390,9 +3391,9 @@ class _$OutputEvent_LogOut implements OutputEvent_LogOut {
     TResult? Function()? syncFailed,
     TResult? Function()? timelineUpdated,
     TResult? Function()? preAccount,
-    TResult? Function(PostAccountPhase field0)? postAccount,
-    TResult? Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult? Function(DocUpdatedEvent field0)? docUpdated,
+    TResult? Function(AccView accView)? postAccount,
+    TResult? Function(String deviceName)? deviceAdded,
+    TResult? Function(String docId)? docUpdated,
     TResult? Function(String blobId, String path)? downloadCompleted,
     TResult? Function(String blobId)? downloadFailed,
     TResult? Function(AccView field0)? accUpdated,
@@ -3410,9 +3411,9 @@ class _$OutputEvent_LogOut implements OutputEvent_LogOut {
     TResult Function()? syncFailed,
     TResult Function()? timelineUpdated,
     TResult Function()? preAccount,
-    TResult Function(PostAccountPhase field0)? postAccount,
-    TResult Function(DeviceAddedEvent field0)? deviceAdded,
-    TResult Function(DocUpdatedEvent field0)? docUpdated,
+    TResult Function(AccView accView)? postAccount,
+    TResult Function(String deviceName)? deviceAdded,
+    TResult Function(String docId)? docUpdated,
     TResult Function(String blobId, String path)? downloadCompleted,
     TResult Function(String blobId)? downloadFailed,
     TResult Function(AccView field0)? accUpdated,

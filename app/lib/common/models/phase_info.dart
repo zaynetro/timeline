@@ -123,7 +123,7 @@ Future<DevicePhaseInfo> setupDevice(AppEventDispatcher dispatcher) async {
       completer.complete(DevicePhaseInfo.preAccount(dispatcher));
     } else if (event is OutputEvent_PostAccount) {
       completer
-          .complete(DevicePhaseInfo.appState(dispatcher, event.field0.accView));
+          .complete(DevicePhaseInfo.appState(dispatcher, event.accView));
     }
   }
 

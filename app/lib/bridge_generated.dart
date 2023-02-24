@@ -370,12 +370,10 @@ class CardView {
 
 class CollaboratorChange {
   final String accountId;
-  final AclRights rights;
-  final bool removed;
+  final AclRights? rights;
   CollaboratorChange({
     required this.accountId,
-    required this.rights,
-    required this.removed,
+    this.rights,
   });
 }
 
@@ -395,20 +393,6 @@ class CreateAccLabelResult {
   CreateAccLabelResult({
     required this.view,
     required this.label,
-  });
-}
-
-class DeviceAddedEvent {
-  final String deviceName;
-  DeviceAddedEvent({
-    required this.deviceName,
-  });
-}
-
-class DocUpdatedEvent {
-  final String docId;
-  DocUpdatedEvent({
-    required this.docId,
   });
 }
 
@@ -451,15 +435,15 @@ class OutputEvent with _$OutputEvent {
   const factory OutputEvent.syncFailed() = OutputEvent_SyncFailed;
   const factory OutputEvent.timelineUpdated() = OutputEvent_TimelineUpdated;
   const factory OutputEvent.preAccount() = OutputEvent_PreAccount;
-  const factory OutputEvent.postAccount(
-    PostAccountPhase field0,
-  ) = OutputEvent_PostAccount;
-  const factory OutputEvent.deviceAdded(
-    DeviceAddedEvent field0,
-  ) = OutputEvent_DeviceAdded;
-  const factory OutputEvent.docUpdated(
-    DocUpdatedEvent field0,
-  ) = OutputEvent_DocUpdated;
+  const factory OutputEvent.postAccount({
+    required AccView accView,
+  }) = OutputEvent_PostAccount;
+  const factory OutputEvent.deviceAdded({
+    required String deviceName,
+  }) = OutputEvent_DeviceAdded;
+  const factory OutputEvent.docUpdated({
+    required String docId,
+  }) = OutputEvent_DocUpdated;
   const factory OutputEvent.downloadCompleted({
     required String blobId,
     required String path,
@@ -484,13 +468,6 @@ enum PixelFormat {
 
   /// Compressed JPEG: https://developer.android.com/reference/android/graphics/ImageFormat#JPEG
   JPEG,
-}
-
-class PostAccountPhase {
-  final AccView accView;
-  PostAccountPhase({
-    required this.accView,
-  });
 }
 
 class ProfileView {
@@ -1358,20 +1335,8 @@ class NativeImpl implements Native {
     return _wire2api_card_text_attrs(raw);
   }
 
-  DeviceAddedEvent _wire2api_box_autoadd_device_added_event(dynamic raw) {
-    return _wire2api_device_added_event(raw);
-  }
-
-  DocUpdatedEvent _wire2api_box_autoadd_doc_updated_event(dynamic raw) {
-    return _wire2api_doc_updated_event(raw);
-  }
-
   FileThumbnail _wire2api_box_autoadd_file_thumbnail(dynamic raw) {
     return _wire2api_file_thumbnail(raw);
-  }
-
-  PostAccountPhase _wire2api_box_autoadd_post_account_phase(dynamic raw) {
-    return _wire2api_post_account_phase(raw);
   }
 
   int _wire2api_box_autoadd_u8(dynamic raw) {
@@ -1478,24 +1443,6 @@ class NativeImpl implements Native {
     return CreateAccLabelResult(
       view: _wire2api_acc_view(arr[0]),
       label: _wire2api_acc_label(arr[1]),
-    );
-  }
-
-  DeviceAddedEvent _wire2api_device_added_event(dynamic raw) {
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return DeviceAddedEvent(
-      deviceName: _wire2api_String(arr[0]),
-    );
-  }
-
-  DocUpdatedEvent _wire2api_doc_updated_event(dynamic raw) {
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return DocUpdatedEvent(
-      docId: _wire2api_String(arr[0]),
     );
   }
 
@@ -1608,15 +1555,15 @@ class NativeImpl implements Native {
         return OutputEvent_PreAccount();
       case 4:
         return OutputEvent_PostAccount(
-          _wire2api_box_autoadd_post_account_phase(raw[1]),
+          accView: _wire2api_box_autoadd_acc_view(raw[1]),
         );
       case 5:
         return OutputEvent_DeviceAdded(
-          _wire2api_box_autoadd_device_added_event(raw[1]),
+          deviceName: _wire2api_String(raw[1]),
         );
       case 6:
         return OutputEvent_DocUpdated(
-          _wire2api_box_autoadd_doc_updated_event(raw[1]),
+          docId: _wire2api_String(raw[1]),
         );
       case 7:
         return OutputEvent_DownloadCompleted(
@@ -1642,15 +1589,6 @@ class NativeImpl implements Native {
       default:
         throw Exception("unreachable");
     }
-  }
-
-  PostAccountPhase _wire2api_post_account_phase(dynamic raw) {
-    final arr = raw as List<dynamic>;
-    if (arr.length != 1)
-      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
-    return PostAccountPhase(
-      accView: _wire2api_acc_view(arr[0]),
-    );
   }
 
   ProfileView _wire2api_profile_view(dynamic raw) {
@@ -1762,6 +1700,11 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.Int32> api2wire_box_autoadd_acl_rights(AclRights raw) {
+    return inner.new_box_autoadd_acl_rights_0(api2wire_acl_rights(raw));
+  }
+
+  @protected
   ffi.Pointer<ffi.Bool> api2wire_box_autoadd_bool(bool raw) {
     return inner.new_box_autoadd_bool_0(api2wire_bool(raw));
   }
@@ -1830,6 +1773,11 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
   @protected
   ffi.Pointer<wire_uint_8_list> api2wire_opt_String(String? raw) {
     return raw == null ? ffi.nullptr : api2wire_String(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.Int32> api2wire_opt_box_autoadd_acl_rights(AclRights? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_acl_rights(raw);
   }
 
   @protected
@@ -1961,8 +1909,7 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
   void _api_fill_to_wire_collaborator_change(
       CollaboratorChange apiObj, wire_CollaboratorChange wireObj) {
     wireObj.account_id = api2wire_String(apiObj.accountId);
-    wireObj.rights = api2wire_acl_rights(apiObj.rights);
-    wireObj.removed = api2wire_bool(apiObj.removed);
+    wireObj.rights = api2wire_opt_box_autoadd_acl_rights(apiObj.rights);
   }
 
   void _api_fill_to_wire_content_view(
@@ -2785,6 +2732,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _new_box_autoadd_acc_contact_0 = _new_box_autoadd_acc_contact_0Ptr
       .asFunction<ffi.Pointer<wire_AccContact> Function()>();
 
+  ffi.Pointer<ffi.Int32> new_box_autoadd_acl_rights_0(
+    int value,
+  ) {
+    return _new_box_autoadd_acl_rights_0(
+      value,
+    );
+  }
+
+  late final _new_box_autoadd_acl_rights_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
+          'new_box_autoadd_acl_rights_0');
+  late final _new_box_autoadd_acl_rights_0 = _new_box_autoadd_acl_rights_0Ptr
+      .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
+
   ffi.Pointer<ffi.Bool> new_box_autoadd_bool_0(
     bool value,
   ) {
@@ -3109,11 +3070,7 @@ class wire_AccContact extends ffi.Struct {
 class wire_CollaboratorChange extends ffi.Struct {
   external ffi.Pointer<wire_uint_8_list> account_id;
 
-  @ffi.Int32()
-  external int rights;
-
-  @ffi.Bool()
-  external bool removed;
+  external ffi.Pointer<ffi.Int32> rights;
 }
 
 class wire_list_collaborator_change extends ffi.Struct {

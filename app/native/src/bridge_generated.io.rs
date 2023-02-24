@@ -262,6 +262,11 @@ pub extern "C" fn new_box_autoadd_acc_contact_0() -> *mut wire_AccContact {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_acl_rights_0(value: i32) -> *mut i32 {
+    support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_bool_0(value: bool) -> *mut bool {
     support::new_leak_box_ptr(value)
 }
@@ -355,6 +360,12 @@ impl Wire2Api<AccContact> for *mut wire_AccContact {
     fn wire2api(self) -> AccContact {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<AccContact>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<AclRights> for *mut i32 {
+    fn wire2api(self) -> AclRights {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<AclRights>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<bool> for *mut bool {
@@ -472,7 +483,6 @@ impl Wire2Api<CollaboratorChange> for wire_CollaboratorChange {
         CollaboratorChange {
             account_id: self.account_id.wire2api(),
             rights: self.rights.wire2api(),
-            removed: self.removed.wire2api(),
         }
     }
 }
@@ -578,8 +588,7 @@ pub struct wire_CardTextAttrs {
 #[derive(Clone)]
 pub struct wire_CollaboratorChange {
     account_id: *mut wire_uint_8_list,
-    rights: i32,
-    removed: bool,
+    rights: *mut i32,
 }
 
 #[repr(C)]
@@ -772,8 +781,7 @@ impl NewWithNullPtr for wire_CollaboratorChange {
     fn new_with_null_ptr() -> Self {
         Self {
             account_id: core::ptr::null_mut(),
-            rights: Default::default(),
-            removed: Default::default(),
+            rights: core::ptr::null_mut(),
         }
     }
 }

@@ -68,9 +68,9 @@ class _CollaboratorsPageState extends State<CollaboratorsPage> {
     if (ownRights.rights == AclRights.Admin) {
       final changes = _pendingChanges.entries
           .map((e) => CollaboratorChange(
-              accountId: e.key,
-              rights: e.value ?? AclRights.Read,
-              removed: e.value == null))
+                accountId: e.key,
+                rights: e.value,
+              ))
           .toList();
 
       setState(() {

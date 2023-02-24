@@ -64,6 +64,7 @@ impl SecretGroup {
 }
 
 /// Status info about account's MlsGroup
+#[derive(Clone)]
 pub struct SecretGroupStatus {
     pub group_id: String,
     /// MlsGroup::authentication_secret to assert that group states are the same
