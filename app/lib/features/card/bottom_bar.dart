@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quill_delta/quill_delta.dart';
 import 'package:timeline/common/models/app_state.dart';
 import 'package:timeline/features/card/card_edit.dart';
 import 'package:timeline/features/card/toolbar.dart';
@@ -13,28 +12,6 @@ import 'package:timeline/routes.dart';
 class CardBottomBar extends StatelessWidget {
   final void Function(FileType) onPickFile;
   final Function(bool isOpen) onFormatToolbar;
-
-  void _undo(TimelineCardEdit cardEdit) {
-    final delta = cardEdit.controller.history.undo();
-    _applyDelta(cardEdit, delta);
-  }
-
-  void _redo(TimelineCardEdit cardEdit) {
-    final delta = cardEdit.controller.history.redo();
-    _applyDelta(cardEdit, delta);
-  }
-
-  void _applyDelta(TimelineCardEdit cardEdit, Delta? delta) {
-    if (delta == null || delta.isEmpty) {
-      return;
-    }
-
-    cardEdit.controller.compose(
-      delta,
-      selection: HistoryStack.selectionFromDelta(delta),
-      source: ChangeSource.local,
-    );
-  }
 
   const CardBottomBar({
     Key? key,
@@ -55,23 +32,20 @@ class CardBottomBar extends StatelessWidget {
         AnimatedBuilder(
           animation: cardEdit.controller,
           builder: (context, child) {
-            // final canUndo = cardEdit.controller.history.canUndo;
-            // final canRedo = cardEdit.controller.history.canRedo;
-            const canUndo = false;
-            const canRedo = false;
+            final c = cardEdit.controller;
 
             return Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Spacer(),
                 IconButton(
-                  onPressed: canUndo ? () => _undo(cardEdit) : null,
+                  onPressed: c.canUndo ? () => c.undo() : null,
                   tooltip: 'Undo',
                   icon: const Icon(Icons.undo),
                 ),
                 const SizedBox(width: 4),
                 IconButton(
-                  onPressed: canRedo ? () => _redo(cardEdit) : null,
+                  onPressed: c.canRedo ? () => c.redo() : null,
                   tooltip: 'Redo',
                   icon: const Icon(Icons.redo),
                 ),

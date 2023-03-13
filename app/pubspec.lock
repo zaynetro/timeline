@@ -348,12 +348,11 @@ packages:
   fleather:
     dependency: "direct main"
     description:
-      path: "packages/fleather"
-      ref: "090c30c1e620e638e31becf6de3bb0e80452f954"
-      resolved-ref: "090c30c1e620e638e31becf6de3bb0e80452f954"
-      url: "https://github.com/zaynetro/fleather.git"
-    source: git
-    version: "1.4.0"
+      name: fleather
+      sha256: "6de8a4667103f07ba7394ad4e4fc256cfaa3e54820bbfbf034ec0595eed8eff9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -596,12 +595,11 @@ packages:
   parchment:
     dependency: transitive
     description:
-      path: "packages/parchment"
-      ref: bolik-app
-      resolved-ref: "50e2b84666e77e2de68dc10f7ea260c2656d7cdf"
-      url: "https://github.com/zaynetro/fleather.git"
-    source: git
-    version: "1.4.0"
+      name: parchment
+      sha256: "3e252a9aac2aef1abc1c4b2745a6e919774351ace306b99f5f989d62fafcc6f3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.0"
   path:
     dependency: "direct main"
     description:
@@ -1080,5 +1078,5 @@ packages:
     source: hosted
     version: "2.0.3"
 sdks:
-  dart: ">=2.18.0 <4.0.0"
+  dart: ">=2.18.0 <3.0.0"
   flutter: ">=3.0.0"

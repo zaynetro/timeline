@@ -46,15 +46,7 @@ dependencies:
   path: ^1.8.0
   url_launcher: ^6.1.5
   open_filex: ^4.3.1
-  # fleather: ^1.4.0
-  # fleather:
-  #   path: '../../fleather/packages/fleather'
-  fleather:
-    git:
-      url: https://github.com/zaynetro/fleather.git
-      # ref: bolik-app
-      ref: 090c30c1e620e638e31becf6de3bb0e80452f954
-      path: packages/fleather
+  fleather: ^1.6.0
   quill_delta: 3.0.0-nullsafety.2
   qr_flutter: ^4.0.0
   camera: ^0.10.1
